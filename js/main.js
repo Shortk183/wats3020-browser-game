@@ -1,9 +1,7 @@
 /* WATS 3020 Browser Game project */
 /* Build a tic tac toe game for two players. */
 
-// TODO: Create a class called `Player`. The `constructor()` should look for a
-// parameter called `token` and should set `this.token` as a property of
-// the class.
+
 class Player {
     constructor(token){
         this.token = token;
@@ -13,40 +11,31 @@ class Player {
 // Tic Tac Toe Game Class
 class TicTacToe {
     constructor(){
-        // TODO: Set up `this.player1` and `this.player2` properties.
-        // These properties should be new Player class instances.
-        // You may set the "token" to anything that corresponds to a Glyphicon
-        // icon name ('heart', 'star', 'remove-sign', 'unchecked', 'bell',
-        // 'certificate', etc.)
+        
         this.player1 = new Player('remove-sign');
         this.player2 = new Player('unchecked');
 
-        // TODO: Initialize several  properties that will be used to track game
-        // progress.
-
-        // TODO: Set `this.currentPlayer` equal to `null`
-        this.currentPlayer = null;
-        // TODO: Set `this.gameStatus` equal to `null`
-        this.gameStatus = null;
-        // TODO: Set `this.winner` equal to `null`
-        this.winner = null;
-        // TODO: Set `this.moveCount` equal to `0`
-        this.moveCount = 0;
-        // TODO: Set up DOM elements used in game as Class properties
         
-        // TODO: Set `this.startPrompt` equal to the `#start-prompt` element
+        this.currentPlayer = null;
+        
+        this.gameStatus = null;
+        
+        this.winner = null;
+        
+        this.moveCount = 0;
+        
         this.startPrompt = document.querySelector('#start-prompt');
-        // TODO: Set `this.movePrompt` equal to the `#move-prompt` element
+        
         this.movePrompt = document.querySelector('#move-prompt');
-        // TODO: Set `this.currentPlayerToken` equal to the `#player-token` element
+        
         this.currentPlayerToken = document.querySelector('#player-token');
-        // TODO: Set `this.gameboard` equal to the `#gameboard` element
+        
         this.gameboard = document.querySelector('#gameboard');
-        // TODO: Set `this.winScreen` equal to the `#win-screen` element
+        
         this.winScreen = document.querySelector('#win-screen');
-        // TODO: Set `this.winnerToken` equal to the `#winner-token` element
+        
         this.winnerToken = document.querySelector('#winner-token');
-        // TODO: Set `this.drawScreen` equal to the `#draw-screen` element
+        
         this.drawScreen = document.querySelector('#draw-screen');
         // Initialize an Array representing the starting state of the game board.
         // This is provided for you. We can access the spaces on the board using
@@ -96,9 +85,10 @@ class TicTacToe {
                 // If we've gotten here, then we need to createa  `win` event and
                 // dispatch it.
 
-                // TODO: Create a new event called `winEvent` that will dispatch the signal "win".
-
-                // TODO: Dispatch the winEvent using the `document.dispatchEvent()` method.
+                
+                let winEvent = new Event('win');
+                
+                document.dispatchEvent(winEvent);
 
                 return true; // Return a value to stop processing the additional move count check.
             }
@@ -109,9 +99,10 @@ class TicTacToe {
             console.log(`This game is a draw at ${this.moveCount} moves.`);
             this.gameStatus = 'draw';
 
-            // TODO: Create a new event called `drawEvent` that dispatches the signal "draw".
-
-            // TODO: Dispatch the `drawEvent` event.
+            
+            let drawEvent = new Event('draw');
+            
+            document.dispatchEvent(drawEvent);
         }
     }
 
@@ -123,16 +114,15 @@ class TicTacToe {
         // 1. Find the X, Y coordinates of the tile that was just selected
         // 2. Claim that tile in the `this.gameState` array
         // 3. Set the class attribute of the tile to reflect which player has claimed it
-
-        // TODO: Define a variable called `tile_x` that equals the `data-x` attribute on the `event.target`.
-
-        // TODO: Define a variable called `tile_y` that equals the `data-y` attribute on the `event.target`.
-
-        // TODO: Claim this spot in the `this.gameState` array for the player.
-
-        // TODO: Set the class on the `event.target` to show the player's token. The class
-        // should be: `tile played glyphicon glyphicon-${this.currentPlayer.token}`.
+        
+         let tileX = event.target.dataset.x;
+         let tileY = event.target.dataset.y;
+        
+        this.gameState[tileX][tileY] = this.currentPlayer.token;
+        
+        event.target.setAttribute('class', `tile played glyphicon glyphicon-${this.currentPlayer.token}`);
     }
+
     switchPlayer(){
         console.log('Switching Player.');
         // This method handles switching between players after each move.
@@ -140,11 +130,8 @@ class TicTacToe {
         // other player. After that, it must set the class on the
         // `this.currentPlayerToken` property to show the proper class.
 
-        // TODO: Make a conditional that checks to see if `this.currentPlayer`
-        // is equal to `this.player1` If so, set `this.currentPlayer` to
-        // `this.player2`. If not, set `this.currentPlayer` equal to
-        // `this.player1`. (You will use an if/else statement to do this.)
-        if (this.curentPlayer == this.player1) {
+       
+        if (this.curentPlayer === this.player1) {
             this.currentPlayer = this.player2;
         }   else {
             this.currentPlayer = thisplayer1;
@@ -158,50 +145,42 @@ class TicTacToe {
         // start a new game. It must find all the tiles and apply event listeners
         // to them.
 
-        // TODO: Select all of the `.tile` elements into a variable called
-        // `tileElements`.
         let tileElements = document.querySelectorAll('.tile');
-        // TODO: Use a loop to add a "click" event listener to each tile that
-        // will call the `handleMove` function whenever a tile is clicked.
+        
         for (let tile of tileElements){
             tile.addEventListener('click', handlemove);
         }
     }
     showWinScreen(){
         // This method displays the end game screen for a Win.
-
-        // TODO: Change the `class` attribute on the `this.winScreen` property
-        // to "show".
-
-        // TODO: Change the `class` attribute on the `this.winnerToken` property
-        // to show the proper winner's token.
+        console.log('Now showing win screen.');
+        
+        this.winScreen.setAttribute('class', 'show');
+        
+        this.winnerToken.setAttribute('class', `glyphicon ${this.winner.token}`);
     }
     showDrawScreen(){
         // This method displays the end game screen for a Draw.
-
-        // TODO: Set the `class` attribute on the `this.drawScreen` property
-        // to "show".
+        this.drawScreen.setAttribute('class', 'show');
+        
     }
     setUpBoard(){
         console.log('Setting up Game Board');
-        // TODO: Clear all content from the existing `this.gameboard` element.
+      
         this.gameboard.innerHTML = '';
         // We must draw the game board by using a loop to create rows with
         // tiles in them. We want to create the same structure as we see in the
         // index.html file.
 
-        // TODO: Create a `for` loop that will loop three times. The counter
-        // variable in this loop should be called `i`.
+        
         for (let i=0; i<3; i++){
-            // TODO: Create a new div element called `newRow
+            
         let newRow = document.createElement('div');
-            // TODO: Set the `class` attribute on `newRow` to "row".
+            
             newRow.setAttribute('class', 'row');
-            // TODO: Create another `for` loop to make the colums to contain the
-            // tiles. This `for` loop should also loop 3 times. The counter
-            // variable in this loop should be called `j`.
+           
             for (let j =0; j<3;j++){
-// TODO: Create a new `div` element called `newCol`.
+
                 let newCol = document.createElement('div');
                 
                 newCol.setAttribute('class', 'col-xs-3');
@@ -234,35 +213,31 @@ class TicTacToe {
     }
     initializeMovePrompt(){
         // This method initializes the `this.movePrompt` element.
-        console.log('IntialializingMove Prompt');
-        // TODO: Hide the `this.startPrompt` element by setting the `class`
-        // attribute to "hidden".
+        console.log('Intialializing Move Prompt');
+        
         this.startPrompt.setAttribute('class', 'hidden');
 
-        // TODO: Remove the "hidden" class from the `this.movePrompt` element.
         this.movePrompt.setAttribute('class', '');
-        // TODO: Set `this.currentPlayer` equal to `this.player1`.
-        this.currentPlayer = this.player1
         
-        // TODO: Set `this.currentPlayerToken` class equal to `glyphicon glyphicon-${this.currentPlayer.token}`
+        this.currentPlayer = this.player1;
+
+        this.currentPlayerToken.setAttribute('class', `glyphicon glyphicon-${this.currentPlayer.token}`);
+        
+        //: Set `this.currentPlayerToken` class equal to `glyphicon glyphicon-${this.currentPlayer.token}`
     }
     start(){
         // This method handles the logic to create a new game. It primarily has
         // two duties in the basic version of the game:
         console.log('Starting game.');
-        // TODO: Create a new gameboard by calling `this.setUpBoard`
+        //  Create a new gameboard by calling `this.setUpBoard`
         this.setUpBoard();
-        // TODO: Initialize the move prompt by calling `this.initializeMovePrompt`.
+        // Initialize the move prompt by calling `this.initializeMovePrompt`.
         this.initializeMovePrompt();
     }
 } // End of the Tic Tac Toe Class definition.
 
-// Outside of the Class definitions, we need a few items to control the game
-// so our players can successfull play.
 
-// TODO: Add an event listener to the `document` object that will watch for the
-// "DOMContentLoaded" event signal. This listener should execute an anonymous
-// function to handle the "DOMContentLoaded" event.
+
 let game;
 console.log('Game code starting');
 
@@ -278,26 +253,25 @@ console.log('Game code starting');
 
 });  //END DOMContent Event Listener  
 
-        // TODO: Call the `start()` method of the `game` object you just created.
-
-    // NOTE: End of the `startButton` event listener here.
+       
 
 // NOTE: End of the "DOMContentLoaded" event listener here.
 
 
-// TODO: Add an event listener on the `document` object that listens for the
+// Event listener on the `document` object that listens for the
 // "win" event signal.
-
-    // TODO: In the handler for the "win" event, call the `game.showWinScreen()`
-    // method to display the winning screen.
+document.addEventListener('win', function(event){
+    console.log('Detected win event');
+    game.showWinScreen();
+});
 
 // NOTE: End of the "win" event listener.
 
-// TODO: Add an event listener on the `document` object that listens for the
-// "draw" event signal.
 
-    // TODO: In the handler for the "draw" event, call the `game.showDrawScreen()`
-    // method to display the tie game screen.
+document.addEventListener('draw', function(event){
+    console.log('Detected draw event');
+    game.showDrawScreen();
+})
 
 // NOTE: End of the "draw" event listener.
 
