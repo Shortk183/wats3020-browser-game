@@ -3,7 +3,7 @@
 
 
 class Player {
-    constructor(token){
+    constructor(token) {
         this.token = token;
     }
 }
@@ -131,13 +131,13 @@ class TicTacToe {
         // `this.currentPlayerToken` property to show the proper class.
 
        
-        if (this.curentPlayer === this.player1) {
+        if (this.currentPlayer === this.player1) {
             this.currentPlayer = this.player2;
         }   else {
             this.currentPlayer = thisplayer1;
         }
 
-    this.currentPlayerToken.setAttribute('class', `glyphicon-${this.currentPlayer.token}`);
+    this.currentPlayerToken.setAttribute('class', `glyphicon glyphicon-${this.currentPlayer.token}`);
     }
     setUpTileListeners(){
         console.log('Setting up Tile Listeners.');
@@ -148,7 +148,7 @@ class TicTacToe {
         let tileElements = document.querySelectorAll('.tile');
         
         for (let tile of tileElements){
-            tile.addEventListener('click', handlemove);
+            tile.addEventListener('click', handleMove);
         }
     }
     showWinScreen(){
@@ -213,7 +213,7 @@ class TicTacToe {
     }
     initializeMovePrompt(){
         // This method initializes the `this.movePrompt` element.
-        console.log('Intialializing Move Prompt');
+        console.log('Initialializing Move Prompt');
         
         this.startPrompt.setAttribute('class', 'hidden');
 
@@ -254,9 +254,6 @@ console.log('Game code starting');
 });  //END DOMContent Event Listener  
 
        
-
-// NOTE: End of the "DOMContentLoaded" event listener here.
-
 
 // Event listener on the `document` object that listens for the
 // "win" event signal.
