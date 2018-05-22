@@ -206,7 +206,7 @@ class TicTacToe {
 
         // TODO: Call `this.setUpTileListeners()` to add event listeners to the
         // `.tile` elements.
-
+        this.setUpTileListeners();
         }
             
 
